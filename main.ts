@@ -11,10 +11,10 @@ function pantalla_amb_dades () {
     OLED.clear()
     OLED.writeStringNewLine("TDR")
     OLED.newLine()
-    OLED.writeStringNewLine("Temperatura: " + temperatura + " C")
-    OLED.writeStringNewLine("Humitat: " + Humitat + "%")
-    OLED.writeStringNewLine("Pressio: " + Pressió + " hPa")
-    OLED.writeStringNewLine("Intensitat: " + intensitat + " mA")
+    OLED.writeStringNewLine("Temperatura: " + ("" + temperatura) + " C")
+    OLED.writeStringNewLine("Humitat: " + ("" + Humitat) + "%")
+    OLED.writeStringNewLine("Pressio: " + ("" + Pressió) + " hPa")
+    OLED.writeStringNewLine("Intensitat: " + ("" + intensitat) + " mA")
 }
 function Voltatge_bateria () {
     batvolt = 0
@@ -52,7 +52,7 @@ basic.forever(function () {
         OLED.newLine()
         OLED.writeStringNewLine("BATERIA")
         Voltatge_bateria()
-        OLED.writeStringNewLine("Volt " + batvolt)
+        OLED.writeStringNewLine("Volt " + ("" + batvolt))
         basic.pause(2000)
     }
     if (pantalla > 2) {
