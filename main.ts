@@ -1,10 +1,13 @@
-function dades () {
+function lectura_de_dades () {
     temperatura = BME280.temperature(BME280_T.T_C)
     Humitat = BME280.humidity()
     Pressió = BME280.pressure(BME280_P.hPa)
     intensitat = pins.analogReadPin(AnalogPin.P1)
 }
-function pantalla_dades () {
+input.onButtonPressed(Button.A, function () {
+    pantalla += 1
+})
+function pantalla_amb_dades () {
     OLED.clear()
     OLED.writeStringNewLine("TDR")
     OLED.newLine()
@@ -27,10 +30,12 @@ if (ESP8266_IoT.wifiState(true)) {
 } else {
     OLED.writeStringNewLine("No connectat")
 }
+basic.pause(1000)
+let pantalla = 1
 basic.forever(function () {
     ESP8266_IoT.connectThingSpeak()
     if (ESP8266_IoT.thingSpeakState(true)) {
-        dades()
+        lectura_de_dades()
         ESP8266_IoT.setData(
         "8OUGW8MHUV093H5B",
         temperatura,
@@ -38,7 +43,6 @@ basic.forever(function () {
         Pressió,
         intensitat
         )
-        pantalla_dades()
         ESP8266_IoT.uploadData()
     } else {
         OLED.clear()
@@ -46,5 +50,21 @@ basic.forever(function () {
         OLED.newLine()
         OLED.writeStringNewLine("ERROR DADES")
     }
-    basic.pause(60000)
+    basic.pause(300000)
+})
+basic.forever(function () {
+    if (pantalla == 1) {
+        pantalla_amb_dades()
+        basic.pause(2000)
+    }
+    if (pantalla == 2) {
+        OLED.clear()
+        OLED.writeStringNewLine("TDR")
+        OLED.newLine()
+        OLED.writeStringNewLine("BATERIA")
+        basic.pause(2000)
+    }
+    if (pantalla > 2) {
+        pantalla = 1
+    }
 })
