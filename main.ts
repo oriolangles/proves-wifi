@@ -79,8 +79,14 @@ if (ESP8266_IoT.wifiState(true)) {
 } else {
     OLED.writeStringNewLine("No connectat")
 }
+LlegirDades()
+VoltatgeBateria()
 basic.pause(1000)
 let pantalla = 1
+basic.forever(function () {
+    EnviarDades()
+    basic.pause(900000)
+})
 basic.forever(function () {
     LlegirDades()
     VoltatgeBateria()
@@ -98,8 +104,4 @@ basic.forever(function () {
     if (pantalla > 2) {
         pantalla = 1
     }
-})
-control.inBackground(function () {
-    EnviarDades()
-    basic.pause(30000)
 })
